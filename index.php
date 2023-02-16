@@ -1,6 +1,7 @@
 <?php
     //php8以降は echo $_POST["username] だと Undefined array key エラーが出る
     echo filter_input(INPUT_POST, 'username');
+    echo filter_input(INPUT_POST, 'comment');
 ?>
 <!DOCTYPE html>
 <html lang="ja">
@@ -34,7 +35,7 @@
                     <input type="text" name="username">
                 </div>
                 <div>
-                    <textarea name="" class="commentTextArea"></textarea>
+                    <textarea name="comment" class="commentTextArea"></textarea>
                 </div>
             </form>
         </div>
