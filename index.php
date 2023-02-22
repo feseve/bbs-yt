@@ -7,7 +7,7 @@
 
 <?php
     //dotenv読み込み
-    require "dotenv.php";
+    require_once "dotenv.php";
 
     $comment_array = array();
 

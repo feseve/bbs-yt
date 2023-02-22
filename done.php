@@ -1,6 +1,6 @@
 <?php
     //dotenv読み込み
-    require "dotenv.php";
+    require_once "dotenv.php";
 
     session_start();
     $f_nonce = $_REQUEST["f_nonce"];
