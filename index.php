@@ -1,3 +1,10 @@
+<!-- エスケープ処理 -->
+<?php 
+    function h($s) {
+        return htmlspecialchars($s, ENT_QUOTES, "UTF-8");
+    }
+?>
+
 <?php
     //dotenv読み込み
     require "dotenv.php";
@@ -43,10 +50,10 @@
                         <div class="wrapper">
                             <div class="nameArea">
                                 <span>名前：</span>
-                                <p class="username"><?php echo $comment["username"]; ?></p>
-                                <time><?php echo $comment["postDate"]; ?></time>
+                                <p class="username"><?php echo h($comment["username"]); ?></p>
+                                <time><?php echo h($comment["postDate"]); ?></time>
                             </div>
-                            <p class="comment"><?php echo $comment["comment"]; ?></p></p>
+                            <p class="comment"><?php echo h($comment["comment"]); ?></p></p>
                         </div>
                     </article>
                 <?php endforeach; ?>
