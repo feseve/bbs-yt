@@ -24,7 +24,7 @@
         echo $e->getMessage();
     }
 
-    //エスケープ処理を書きたい SQLインジェクション
+    //空欄がなければ保存
     if(!(empty($f_username) || empty($f_comment))):
         try{
             $stmt = $pdo->prepare("INSERT INTO `bbs-table` (`username`, `comment`, `postDate`) VALUES (:username, :comment, :postDate)");
