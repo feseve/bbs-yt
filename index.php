@@ -1,14 +1,13 @@
 <?php
     //dotenv読み込み
-    require './vendor/autoload.php';
-
-    date_default_timezone_set("Asia/Tokyo");
-
-    $dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
-    $dotenv->load();
+    require "dotenv.php";
 
     $comment_array = array();
-    $error_messages = array(); 
+
+    //session開始
+    session_start();
+    $rand = str_shuffle("ABCDEFGHIGKLMNOPQRSTUVWXYZ");
+    $_SESSION["nonce"] = $rand;
 
     //DB接続
         //mysql:host=localhost;もある
@@ -17,39 +16,6 @@
         } catch (PDOExeception $e){
             echo $e->getMessage();
         }
-
-    //フォームを打ち込んだとき
-    if(!empty($_POST["submitButton"])){
-
-        //名前のテェック
-        if(empty($_POST["username"])){
-            $error_messages["username"] = "名前を入力してください";
-            echo "名前を入力してください";
-        }
-
-        //コメントのテェック
-        if(empty($_POST["comment"])){
-            $error_messages["comment"] = "コメントを入力してください";
-            echo "コメントを入力してください";
-        }
-
-        //エスケープ処理を書きたい
-
-        if(empty($error_messages)){
-            $postDate = date("Y-m-d H:i:s");
-
-            try{
-                $stmt = $pdo->prepare("INSERT INTO `bbs-table` (`username`, `comment`, `postDate`) VALUES (:username, :comment, :postDate)");
-                $stmt->bindParam(':username', $_POST['username'], PDO::PARAM_STR);
-                $stmt->bindParam(':comment', $_POST['comment'], PDO::PARAM_STR);
-                $stmt->bindParam(':postDate', $postDate, PDO::PARAM_STR);
-        
-                $stmt->execute();        
-            } catch (PDOExeception $e){
-                echo $e->getMessage();
-            }
-        }
-    }
 
     //DBから情報取得
     $sql = "SELECT * FROM `bbs-table`;";
@@ -85,9 +51,10 @@
                     </article>
                 <?php endforeach; ?>
             </section>
-            <form action="" class="formWrapper" method="post">
+            <form action="done.php" class="formWrapper" method="post">
                 <div>
                     <input type="submit" value="書き込む" name="submitButton">
+                    <input type="hidden" name="f_nonce" value="<?php echo $rand; ?>">
                     <label for="">名前</label>
                     <input type="text" name="username">
                 </div>
