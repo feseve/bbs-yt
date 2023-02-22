@@ -37,7 +37,7 @@
             echo $e->getMessage();
         }
     else:
-        echo "登録できませんでした。";
+        echo "登録できませんでした";
     endif;
 
     //DBの接続を閉じる
