@@ -6,9 +6,24 @@
     //バリデーション
     //postで受け取った値を表示
     if(!$username = filter_input(INPUT_POST, 'username')){
-
+        $err[] = "ユーザー名を入力してください";
+    }
+    if(!$email = filter_input(INPUT_POST, 'email')){
+        $err[] = "emailを入力してください";
+    }
+    $password = filter_input(INPUT_POST, 'password');
+    //正規表現
+    if (!preg_match('/\A[a-z\d]{8,100}+\z/i', $password)) {
+        $err[] = 'パスワードは英数字8文字以上100文字以下にしてください。';
+    }
+    $password_conf = filter_input(INPUT_POST, 'password_conf');
+    if($password !== $password_conf){
+        $err[] = "確認用のパスワードと異なっています。";
     }
 
+    if(count($err) === 0){
+        //ユーザーを登録
+    }
 ?>
 
 <!DOCTYPE html>
@@ -20,7 +35,13 @@
     <title>ユーザー登録完了画面</title>
 </head>
 <body>
-    <p>ユーザー登録が完了しました</p>
+    <?php if (count($err) > 0): ?>
+        <?php foreach($err as $e): ?>
+            <p><?php echo $e ?></p>
+        <?php endforeach; ?>
+    <?php else: ?>
+        <p>ユーザー登録が完了しました</p>
+    <?php endif; ?>
     <a href="./signup_form.php">戻る</a>
 </body>
 </html>
