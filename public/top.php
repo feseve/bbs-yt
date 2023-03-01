@@ -5,37 +5,24 @@
 
     //エラーメッセージ
     $err = [];
-    
+
     //バリデーション
     //postで受け取った値を表示
-    if(!$username = filter_input(INPUT_POST, 'username')){
-        $err['username'] = "ユーザー名を入力してください";
-    }
     if(!$email = filter_input(INPUT_POST, 'email')){
         $err['email'] = "emailを入力してください";
     }
-    $password = filter_input(INPUT_POST, 'password');
-    //正規表現
-    if (!preg_match('/\A[a-z\d]{8,100}+\z/i', $password)) {
-        $err['password'] = 'パスワードは英数字8文字以上100文字以下にしてください。';
-    }
-    $password_conf = filter_input(INPUT_POST, 'password_conf');
-    if($password !== $password_conf){
-        $err['password_conf'] = "確認用のパスワードと異なっています。";
+    if(!$password = filter_input(INPUT_POST, 'password')){
+        $err['password'] = "パスワードを記入してください";
     }
 
     if(count($err) > 0){
         //エラーがあった場合
         $_SESSION = $err;
-        header('Location: signup_form.php');
+        header('Location: login.php');
         return;
-    } else {
-        //ユーザーを登録
-        $hasCreated = UserLogic::createUser($_POST);
-        if(!$hasCreated){
-            $err[] = "登録に失敗しました。";
-        }
     }
+    //ログイン成功時
+    echo 'ログインしました';
 ?>
 
 <!DOCTYPE html>
@@ -54,6 +41,6 @@
         <?php else: ?>
             <p>ユーザー登録が完了しました</p>
         <?php endif; ?>
-        <a href="./signup_form.php">戻る</a>
+        <a href="./login.php">戻る</a>
     </body>
 </html>
