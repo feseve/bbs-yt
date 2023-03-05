@@ -5,6 +5,14 @@
 
     //エラーメッセージ
     $err = [];
+
+    $token = filter_input(INPUT_POST, 'csrf_token');
+    //トークンがないもしくは一致しない場合は中止
+    if(!isset($_SESSION['csrf_token']) || $token !== $_SESSION['csrf_token']){
+        exit('不正なアクセスです');
+    }
+    //csrfと二重送信の対策
+    unset($_SESSION['csrf_token']);
     
     //バリデーション
     //postで受け取った値を表示

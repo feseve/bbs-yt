@@ -66,7 +66,6 @@
         public static function getUserByEmail($email){
             //SQLの準備
             //SQLの実行
-            //SQLの結果を返す
             $sql = 'SELECT * FROM users WHERE email = ?';
 
             //emailを配列に入れる
