@@ -1,4 +1,7 @@
 <?php 
+
+    require_once '../functions.php';
+
     session_start();
     $err = $_SESSION;
 
@@ -46,6 +49,7 @@
                 <p><?php echo $err['password_conf']; ?></p>
             <?php endif; ?>
         </p>
+        <input type="hidden" name="csrf_token" value="<?php echo h(setToken());?>">
         <p>
             <input type="submit" value="登録">
         </p>
