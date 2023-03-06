@@ -4,7 +4,7 @@
     class UserLogic{
         /**
          * ユーザーを登録する
-         * @params array $userDate
+         * @param array $userDate
          * @return bool $result
          */
         public static function createUser($userDate){
@@ -29,8 +29,8 @@
 
         /**
          * ログイン処理
-         * @params string $email
-         * @params string $password
+         * @param string $email
+         * @param string $password
          * @return bool $result
          */
         public static function login($email, $password){
@@ -60,7 +60,7 @@
 
         /**
          * emailからユーザを取得
-         * @params string $email
+         * @param string $email
          * @return array|bool $user|false
          */
         public static function getUserByEmail($email){
@@ -81,6 +81,22 @@
             } catch(\Exception $e){
                 return false;
             }
+        }
+
+        /**
+         * ログインチェック
+         * @param void
+         * @return bool $result
+         */
+        public static function checkLogin(){
+            $result = false;
+
+            //セッションにユーザがあるかを確認
+            if(isset($_SESSION['login_user']) && $_SESSION['login_user']['id'] > 0){
+                return $result = true;
+            } 
+
+            return $result;
         }
     }
 ?>

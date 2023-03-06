@@ -1,46 +1,46 @@
-<?php 
+<?php
+    require_once '../classes/UserLogic.php';
     session_start();
 
-    $err = $_SESSION;
+    //エラーメッセージ
+    $err = [];
 
-    // //セッション初期化 空の配列を設定
-    $_SESSION = array();
-    session_destroy();
+    //バリデーション
+    //postで受け取った値を表示
+    if(!$email = filter_input(INPUT_POST, 'email')){
+        $err['email'] = "emailを入力してください";
+    }
+    if(!$password = filter_input(INPUT_POST, 'password')){
+        $err['password'] = "パスワードを記入してください";
+    }
+
+    if(count($err) > 0){
+        //エラーがあった場合
+        $_SESSION = $err;
+        header('Location: login_form.php');
+        return;
+    }
+    //ログイン成功時
+    $result = UserLogic::login($email, $password);
+    if(!$result){
+        //ログイン失敗時
+        header('Location: login_form.php');
+        return;
+    }
 
 ?>
 
 <!DOCTYPE html>
 <html lang="ja">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ログイン画面</title>
-</head>
-<body>
-    <h2>ログインフォーム</h2>
-    <?php if (isset($err['msg'])): ?>
-        <p><?php echo $err['msg']; ?></p>
-    <?php endif; ?>
-    <form action="top.php" method="POST">
-        <p>
-            <label for="email">メールアドレス：</label>
-            <input type="email" name="email">
-            <?php if (isset($err['email'])): ?>
-                <p><?php echo $err['email']; ?></p>
-            <?php endif; ?>
-        </p>
-        <p>
-            <label for="password">パスワード：</label>
-            <input type="password" name="password">
-            <?php if (isset($err['password'])): ?>
-                <p><?php echo $err['password']; ?></p>
-            <?php endif; ?>
-        </p>
-        <p>
-            <input type="submit" value="ログイン">
-        </p>
-    </form>
-    <a href="signup_form.php">新規登録はコチラ</a>
-</body>
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>ログイン完了</title>
+    </head>
+    <body>
+        <h2>ログイン完了</h2>
+        <p>ログインしました!</p>
+        <a href="./mypage.php">マイページへ</a>
+    </body>
 </html>
