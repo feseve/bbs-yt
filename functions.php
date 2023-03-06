@@ -1,7 +1,6 @@
 <?php
     /**
      * XSS対策
-     *
      * @param string $str 対象の文字列
      * @return string 処理された文字列
      */
@@ -10,7 +9,7 @@
     }
 
     /**
-     * CSRF対策
+     * CSRF対策 ワンタイムトークン
      * @param void
      * @return string $csrf_token
      */
@@ -20,7 +19,6 @@
         //フォームからそのトークンを送信
         //送信後の画面でそのトークンを照会
         //トークン削除
-        session_start();
         $csrf_token = bin2hex(random_bytes(32));
         $_SESSION['csrf_token'] = $csrf_token;
 
